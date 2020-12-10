@@ -16,5 +16,11 @@
     <description>
         商品微服务[changgou-service-goods]的pojo和feign的抽取
     </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
