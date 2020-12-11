@@ -8,33 +8,32 @@ public class Result<T> {
     private boolean flag;//是否成功
     private Integer code;//返回码
     private String message;//返回消息
-
     private T data;//返回数据
 
-    public Result(boolean flag, Integer code, String message, Object data) {
-        this.flag = flag;
-        this.code = code;
-        this.message = message;
-        this.data = (T)data;
+    private Result(StatusCode statusCode) {
+        this.flag = statusCode.isFlag();
+        this.code = statusCode.getCode();
+        this.message = statusCode.getMessage();
     }
 
-    public Result(boolean flag, Integer code, String message) {
-        this.flag = flag;
-        this.code = code;
-        this.message = message;
+    public static Result success() {
+        return new Result(StatusCode.OK);
     }
 
-    public Result() {
-        this.flag = true;
-        this.code = StatusCode.OK;
-        this.message = "执行成功";
+    public Result addData(Object data) {
+        this.data = (T) data;
+        return this;
+    }
+
+    public static Result fail(StatusCode statusCode) {
+        return new Result(statusCode);
     }
 
     public boolean isFlag() {
         return flag;
     }
 
-    public void setFlag(boolean flag) {
+    private void setFlag(boolean flag) {
         this.flag = flag;
     }
 
@@ -42,7 +41,7 @@ public class Result<T> {
         return code;
     }
 
-    public void setCode(Integer code) {
+    private void setCode(Integer code) {
         this.code = code;
     }
 
@@ -50,7 +49,7 @@ public class Result<T> {
         return message;
     }
 
-    public void setMessage(String message) {
+    private void setMessage(String message) {
         this.message = message;
     }
 
@@ -58,7 +57,7 @@ public class Result<T> {
         return data;
     }
 
-    public void setData(T data) {
+    private void setData(T data) {
         this.data = data;
     }
 }
