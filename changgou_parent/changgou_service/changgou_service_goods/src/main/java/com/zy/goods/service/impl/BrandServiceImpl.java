@@ -27,4 +27,14 @@ public class BrandServiceImpl implements BrandService {
     public Integer add(Brand brand) {
         return brandMapper.insert(brand);
     }
+
+    @Override
+    public Integer updateById(Brand brand) {
+        return brandMapper.updateByPrimaryKeySelective(brand);
+    }
+
+    @Override
+    public Integer deleteById(Integer id) {
+        return brandMapper.deleteByPrimaryKey(id);
+    }
 }

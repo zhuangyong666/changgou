@@ -16,6 +16,14 @@ public class Result<T> {
         this.message = statusCode.getMessage();
     }
 
+    public static Result result(Integer total) {
+        if (total > 0) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
+    }
+
     public static Result success() {
         return new Result(StatusCode.OK);
     }
@@ -23,6 +31,10 @@ public class Result<T> {
     public Result addData(Object data) {
         this.data = (T) data;
         return this;
+    }
+
+    public static Result fail() {
+        return new Result(StatusCode.ERROR);
     }
 
     public static Result fail(StatusCode statusCode) {

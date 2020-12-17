@@ -11,4 +11,8 @@ public interface BrandService {
     public Brand findById(Integer id);
 
     public Integer add(Brand brand);
+
+    public Integer updateById(Brand brand);
+
+    public Integer deleteById(Integer id);
 }
