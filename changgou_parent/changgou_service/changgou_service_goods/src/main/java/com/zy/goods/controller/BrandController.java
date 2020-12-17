@@ -1,7 +1,7 @@
 package com.zy.goods.controller;
 
+import com.zy.entity.PageQuery;
 import com.zy.entity.Result;
-import com.zy.entity.StatusCode;
 import com.zy.goods.service.BrandService;
 import com.zy.pojo.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +46,8 @@ public class BrandController {
         return Result.result(total);
     }
 
-    @GetMapping("{pageNum}/{pageSize}")
-    public Result<Brand> findByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
-        return null;
+    @PostMapping("page")
+    public Result<Brand> findByPage(@RequestBody PageQuery<Brand> page) {
+        return Result.success().addData(brandService.findByPage(page));
     }
 }
