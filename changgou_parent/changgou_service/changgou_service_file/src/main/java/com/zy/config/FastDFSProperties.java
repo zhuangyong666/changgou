@@ -20,7 +20,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FastDFSProperties implements InitializingBean {
     private String reqHost;
     private String reqPort;
-    private long soTimeOut;
+    private String soTimeOut;
     private String webServerUrl;
 
 
@@ -28,7 +28,16 @@ public class FastDFSProperties implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         log.debug("fdfs.reqHost is {},fdfs.reqPort is {},fdfs.webServerUrl is {}", getReqHost(), getReqPort(), getWebServerUrl());
         if (StringUtils.isBlank(reqHost)) {
-            throw new IllegalStateException("reqHost 未配置");
+            throw new IllegalStateException("reqHost can't be null");
+        }
+        if (StringUtils.isBlank(reqPort)) {
+            throw new IllegalAccessException("reqPort can't be null");
+        }
+        if (StringUtils.isBlank(soTimeOut)) {
+            throw new IllegalAccessException("soTimeout can't be null");
+        }
+        if (StringUtils.isBlank(webServerUrl)) {
+            throw new IllegalAccessException("webServerUrl can't be null");
         }
     }
 }

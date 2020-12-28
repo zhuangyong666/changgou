@@ -10,7 +10,9 @@ public enum StatusCode {
     ACCESSERROR(203, "权限不足", false),
     REMOTEERROR(204, "远程调用失败", false),
     REPERROR(205, "重复操作", false),
-    SYSTEMERROR(500, "系统异常", false);
+    SYSTEMERROR(500, "系统异常", false),
+    FILEUPLOADERROR(501, "文件上传失败", false),
+    PARAMERROR(502, "参数不能为空", false);
     private Integer code;
     private String message;
     private boolean flag;

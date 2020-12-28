@@ -16,6 +16,9 @@ public class Result<T> {
         this.message = statusCode.getMessage();
     }
 
+    public Result() {
+    }
+
     public static Result result(Integer total) {
         if (total > 0) {
             return Result.success();
@@ -35,6 +38,14 @@ public class Result<T> {
 
     public static Result fail() {
         return new Result(StatusCode.ERROR);
+    }
+
+    public static Result fail(Integer code, String message) {
+        Result<Object> result = new Result<>();
+        result.setFlag(false);
+        result.setCode(code);
+        result.setMessage(message);
+        return result;
     }
 
     public static Result fail(StatusCode statusCode) {
