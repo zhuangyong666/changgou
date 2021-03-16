@@ -1,14 +1,15 @@
 package com.zy.util;
 
-import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import com.zy.entity.Result;
-import com.zy.entity.StatusCode;
+import com.zy.entity.NetworkAddressSymbol;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.csource.common.MyException;
+import org.csource.common.NameValuePair;
+import org.csource.fastdfs.*;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -22,22 +23,86 @@ import java.io.InputStream;
 @Slf4j
 @Component
 public class FastDFSClient {
-    @Autowired
-    private FastFileStorageClient storageClient;
-
-    public String uploadFile(MultipartFile multipartFile) {
+    static {
         try {
-            String filename = multipartFile.getOriginalFilename();
-            InputStream inputStream = multipartFile.getInputStream();
-            StorePath storePath = storageClient.uploadFile(inputStream, multipartFile.getSize(), filename, null);
-            return storePath.getPath();
+            String absolutePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();
+            ClientGlobal.init(absolutePath);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(StatusCode.FILEUPLOADERROR.getMessage(), e.getMessage());
-            return null;
+            log.error("初始化fastDfs失败");
         }
     }
 
+    /**
+     * @param fastDFSFile
+     * @return
+     * @throws Exception
+     * @description 上传文件
+     */
+    public static String uploadFile(FastDFSFile fastDFSFile) throws Exception {
+        NameValuePair[] meta_list = new NameValuePair[1];
+        NameValuePair nameValuePair = new NameValuePair("md5", fastDFSFile.getMd5());
+        meta_list[0] = nameValuePair;
+        StorageClient storageClient = getStorageClient();
+        String[] infos = storageClient.upload_appender_file(fastDFSFile.getContent(), fastDFSFile.getExt(), meta_list);
+        String path = NetworkAddressSymbol.getHttpAgreement() + FastDFSClient.getStorageAddress() + NetworkAddressSymbol.SLASH + infos[0] + NetworkAddressSymbol.SLASH + infos[1];
+        return path;
+    }
+
+    /**
+     * @param groupName
+     * @param remoteFilename
+     * @return
+     * @throws Exception
+     * @description 删除文件
+     */
+    public static int deleteFile(String groupName, String remoteFilename) throws Exception {
+        StorageClient storageClient = getStorageClient();
+        return storageClient.delete_file(groupName, remoteFilename);
+    }
+
+    /**
+     *
+     * @param groupName
+     * @param remoteFilename
+     * @return
+     * @throws Exception
+     * @description 下载文件
+     */
+    public static InputStream downloadFile(String groupName, String remoteFilename) throws Exception {
+        StorageClient storageClient = getStorageClient();
+        return new ByteArrayInputStream(storageClient.download_file(groupName, remoteFilename));
+    }
 
 
+    /**
+     * @return 获取fastDfsTracker 服务端对象
+     * @throws IOException
+     */
+    private static TrackerServer getTrackerServer() throws IOException {
+        TrackerClient trackerClient = new TrackerClient();
+        TrackerServer connection = trackerClient.getConnection();
+        return connection;
+    }
+
+    /**
+     * @return
+     * @throws IOException
+     * @description 获取Storage客户端
+     */
+    private static StorageClient getStorageClient() throws IOException {
+        TrackerServer trackerServer = getTrackerServer();
+        StorageClient storageClient = new StorageClient(trackerServer, null);
+        return storageClient;
+    }
+
+    /**
+     * @return
+     * @throws Exception
+     * @decription 获取storage 地址及端口
+     */
+    public static String getStorageAddress() throws Exception {
+        return getTrackerServer().getInetSocketAddress().getHostName() + NetworkAddressSymbol.COLON + ClientGlobal.g_tracker_http_port;
+    }
 }
+

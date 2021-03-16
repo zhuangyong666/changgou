@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface BrandService {
     /*** * 查询所有品牌 * @return */
-    public List<Brand> findAll();
+    List<Brand> findAll();
 
-    public Brand findById(Integer id);
+    Brand findById(Integer id);
 
-    public Integer add(Brand brand);
+    Integer add(Brand brand);
 
-    public Integer updateById(Brand brand);
+    Integer updateById(Brand brand);
 
-    public Integer deleteById(Integer id);
+    Integer deleteById(Integer id);
 
-    public Page<Brand> findByPage(PageQuery<Brand> page);
+    Page<Brand> findByPage(PageQuery<Brand> page);
 }

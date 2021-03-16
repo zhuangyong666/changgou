@@ -10,9 +10,7 @@ import java.util.List;
  */
 public class PageQuery<T> implements Serializable {
 
-    //当前默认为第一页
     private Integer pageNum = 1;
-    //默认每页显示条件
     private Integer pageSize = 20;
 
     private T query;

@@ -1,6 +1,7 @@
 spring:
   servlet:
     multipart:
+      enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
 server:
@@ -23,7 +24,7 @@ fdfs:
   # 连接tracker服务器超时时长
   connect-timeout: 600
   # nginx 访问的地址和端口
-  reqHost: 114.55.164.189
+  reqHost: 192.168.222.129
   reqPort: 80
   pool:
     # 从池中借出的对象的最大数目
@@ -36,6 +37,6 @@ fdfs:
     width: 150
   # 跟踪服务器tracker_server请求地址,支持多个，这里只有一个，如果有多个在下方加- x.x.x.x:port
   tracker-list:
-    - 114.55.164.189:22122
+    - 192.168.222.129:22122
   # 存储服务器storage_server访问地址
-  web-server-url: http://114.55.164.189:80/
+  web-server-url: http://192.168.222.129:80/

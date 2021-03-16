@@ -30,7 +30,7 @@
         <mysql.version>5.1.47</mysql.version>
         <lombok.version>1.18.6</lombok.version>
         <java.version>1.8</java.version>
-        <fastdfs.version>1.26.6</fastdfs.version>
+        <fastdfs.version>1.27.0.0</fastdfs.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
     </properties>
@@ -85,8 +85,8 @@
                 <version>${springfox-swagger-ui.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
+                <groupId>net.oschina.zcx7878</groupId>
+                <artifactId>fastdfs-client-java</artifactId>
                 <version>${fastdfs.version}</version>
             </dependency>
         </dependencies>

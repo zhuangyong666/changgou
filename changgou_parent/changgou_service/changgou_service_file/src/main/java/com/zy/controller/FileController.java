@@ -3,8 +3,9 @@ package com.zy.controller;
 import com.zy.entity.Result;
 import com.zy.entity.StatusCode;
 import com.zy.util.FastDFSClient;
+import com.zy.util.FastDFSFile;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,15 +24,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("file")
 @Api("文件管理")
 public class FileController {
-    @Autowired
-    private FastDFSClient fastDFSClient;
 
     @PostMapping("upload")
-    public Result uploadFile(@RequestParam("file") MultipartFile file) {
+    public Result uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty() || file == null) {
             return Result.fail(StatusCode.PARAMERROR);
         }
-        String path = fastDFSClient.uploadFile(file);
+        String originalFilename = file.getOriginalFilename();
+        if (StringUtils.isEmpty(originalFilename)){
+            throw new RuntimeException("文件不存在");
+        }
+        //获取文件的扩展名称  abc.jpg   jpg
+        String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+        FastDFSFile fastDFSFile = new FastDFSFile(originalFilename, file.getBytes(), extName);
+        String path = FastDFSClient.uploadFile(fastDFSFile);
         return Result.success().addData(path);
     }
 }

@@ -8,22 +8,33 @@ import java.io.Serializable;
 
 /**
  * brand实体类
- * @author 黑马架构师2.5
  *
+ * @author 黑马架构师2.5
  */
-@Table(name="tb_brand")
+@Table(name = "tb_brand")
 @Data
 public class Brand implements Serializable {
-
-	@Id
-	private Integer id;//品牌id
-
-
-	
-	private String name;//品牌名称
-	private String image;//品牌图片地址
-	private String letter;//品牌的首字母
-	private Integer seq;//排序
+    /**
+     * 品牌id
+     */
+    @Id
+    private Integer id;
+    /**
+     * 品牌名称
+     */
+    private String name;
+    /**
+     * 品牌图片地址
+     */
+    private String image;
+    /**
+     * 品牌的首字母
+     */
+    private String letter;
+    /**
+     * 排序
+     */
+    private Integer seq;
 
 
 }

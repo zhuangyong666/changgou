@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+/**
+ * BrandController.class
+ *
+ * @Author zhuangyong
+ * @Date 2021年3月9日 15:47:46
+ */
 @RestController
 @RequestMapping("brand")
+@CrossOrigin
 public class BrandController {
     @Autowired
     private BrandService brandService;

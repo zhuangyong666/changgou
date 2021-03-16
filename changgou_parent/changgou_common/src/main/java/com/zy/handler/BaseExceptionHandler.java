@@ -1,4 +1,4 @@
-package com.zy.goods.handler;
+package com.zy.handler;
 
 import com.zy.entity.Result;
 import com.zy.entity.StatusCode;
