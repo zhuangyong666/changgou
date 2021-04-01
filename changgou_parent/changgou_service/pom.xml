@@ -20,6 +20,7 @@
     <modules>
         <module>changgou_service_goods</module>
         <module>changgou_service_file</module>
+        <module>changgou-service-canal</module>
     </modules>
 
     <dependencies>
